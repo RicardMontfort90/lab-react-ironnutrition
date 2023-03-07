@@ -6,7 +6,7 @@ import './App.css';
 function App() {
 
   const [foodList, setFoodList] = useState(foods);
-  const [searchText, ] = useState("");
+  const [searchText, setSearchText ] = useState("");
 
   const handleAddFood = (values) => {
     const newFood = {
@@ -18,6 +18,15 @@ function App() {
     setFoodList([...foodList, newFood]);
   };
 
+  const handleDeleteFood = (name) => {
+    const updatedFoodList = foodList.filter((food) => food.name !== name);
+    setFoodList(updatedFoodList);
+  };
+
+  const handleSearch = (value) => {
+    setSearchText(value);
+  };
+
 
   const filteredFoodList = foodList.filter((food) =>
   food.name.toLowerCase().includes(searchText.toLowerCase())
@@ -25,25 +34,24 @@ function App() {
 
   return (
     <div className="container">
-      <h1>IronNutrition</h1>
-      <Row>
-        <Col>
+    <h1>IronNutrition</h1>
+    <Row>
+      <Col>
         <AddFoodForm onAddFood={handleAddFood} />
-        <Divider>Fancy Input</Divider>
-          <Input value={""} onChange={() => {}} />
+      </Col>
+      <Col>
+        <SearchBar onSearch={handleSearch} />
+      </Col>
+    </Row>
+    <Divider>Food List</Divider>
+    <Row gutter={[16, 16]}>
+      {filteredFoodList.map((food, index) => (
+        <Col key={index} xs={24} sm={12} md={8} lg={6}>
+          <FoodBox food={food} onDeleteFood={handleDeleteFood} />
         </Col>
-      </Row>
-
-
-      <Divider>Food List</Divider>
-      <Row gutter={[16, 16]}>
-        {filteredFoodList.map((food, index) => (
-          <Col key={index} xs={24} sm={12} md={8} lg={6}>
-            <FoodBox food={food}  />
-          </Col>
-        ))}
-      </Row>
-    </div>
+      ))}
+    </Row>
+  </div>
   );
 }
 
@@ -90,6 +98,22 @@ function AddFoodForm({ onAddFood }) {
         Add Food
       </Button>
     </Form>
+  );
+}
+
+function SearchBar({ onSearch }) {
+  const handleSearch = (event) => {
+    onSearch(event.target.value);
+  };
+
+  return (
+    <div className="search-bar">
+      <Input.Search
+        placeholder="Search for a food"
+        allowClear
+        onChange={handleSearch}
+      />
+    </div>
   );
 }
 
