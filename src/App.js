@@ -18,6 +18,11 @@ function App() {
     setFoodList([...foodList, newFood]);
   };
 
+
+  const filteredFoodList = foodList.filter((food) =>
+  food.name.toLowerCase().includes(searchText.toLowerCase())
+);
+
   return (
     <div className="container">
       <h1>IronNutrition</h1>
@@ -26,12 +31,16 @@ function App() {
         <Divider>Fancy Input</Divider>
           <Input value={""} onChange={() => {}} />
         </Col>
-      
-        <Col>
-          <Card title={"Fancy Card"}>
-            <Button onClick={() => {}}>Fancy Button</Button>
-          </Card>
-        </Col>
+      </Row>
+
+
+      <Divider>Food List</Divider>
+      <Row gutter={[16, 16]}>
+        {filteredFoodList.map((food, index) => (
+          <Col key={index} xs={24} sm={12} md={8} lg={6}>
+            
+          </Col>
+        ))}
       </Row>
     </div>
   );
