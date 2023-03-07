@@ -6,7 +6,7 @@ import './App.css';
 function App() {
 
   const [foodList, setFoodList] = useState(foods);
-  const [searchText, setSearchText] = useState("");
+  const [searchText, ] = useState("");
 
   const handleAddFood = (values) => {
     const newFood = {
@@ -38,12 +38,30 @@ function App() {
       <Row gutter={[16, 16]}>
         {filteredFoodList.map((food, index) => (
           <Col key={index} xs={24} sm={12} md={8} lg={6}>
-            
+            <FoodBox food={food}  />
           </Col>
         ))}
       </Row>
     </div>
   );
 }
+
+function FoodBox({ food, onDeleteFood }) {
+  const { name, image, calories, servings } = food;
+
+  return (
+    <Card
+      hoverable
+      style={{ width: 240 }}
+      cover={<img alt={name} src={image} />}
+      actions={[<Button onClick={() => onDeleteFood(name)}>Delete</Button>]}
+    >
+      <Card.Meta title={name} description={`${calories} cal`} />
+      <p>{servings} servings</p>
+      <p>Total Calories: {calories * servings}</p>
+    </Card>
+  );
+}
+
 
 export default App;
