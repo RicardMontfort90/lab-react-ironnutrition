@@ -28,6 +28,7 @@ function App() {
       <h1>IronNutrition</h1>
       <Row>
         <Col>
+        <AddFoodForm onAddFood={handleAddFood} />
         <Divider>Fancy Input</Divider>
           <Input value={""} onChange={() => {}} />
         </Col>
@@ -63,5 +64,33 @@ function FoodBox({ food, onDeleteFood }) {
   );
 }
 
+function AddFoodForm({ onAddFood }) {
+  const onFinish = (values) => {
+    onAddFood(values);
+    form.resetFields();
+  };
+
+  const [form] = Form.useForm();
+
+  return (
+    <Form layout="vertical" form={form} onFinish={onFinish}>
+      <Form.Item label="Name" name="name" rules={[{ required: true }]}>
+        <Input placeholder="Food name" />
+      </Form.Item>
+      <Form.Item label="Image URL" name="image" rules={[{ required: true }]}>
+        <Input placeholder="Image URL" />
+      </Form.Item>
+      <Form.Item label="Calories" name="calories" rules={[{ required: true }]}>
+        <Input placeholder="Calories" />
+      </Form.Item>
+      <Form.Item label="Servings" name="servings" rules={[{ required: true }]}>
+        <Input placeholder="Servings" />
+      </Form.Item>
+      <Button type="primary" htmlType="submit">
+        Add Food
+      </Button>
+    </Form>
+  );
+}
 
 export default App;
